@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 data class Topico(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    val titulo: String,
-    val mensagem: String,
+    var titulo: String,
+    var mensagem: String,
     val dataCriacao: LocalDateTime = LocalDateTime.now(),
     @ManyToOne  //Um curso pode ter varios topicos, mas um topico pertence ao um unico curso
     val curso: Curso,
