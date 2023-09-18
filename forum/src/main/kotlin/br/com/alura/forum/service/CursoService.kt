@@ -12,7 +12,7 @@ import java.util.*
 //    init {
 //        val curso = Curso(
 //            id = 1,
-//            categoria = "Programação",                // Simulando um banco de dados.
+//            categoria = "Programação",                // Simulando um banco de dados em memoria
 //            nome = "Kotlin"
 //        )
 //
