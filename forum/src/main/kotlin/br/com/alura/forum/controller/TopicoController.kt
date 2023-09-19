@@ -7,6 +7,7 @@ import br.com.alura.forum.service.TopicoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -25,6 +26,7 @@ class TopicoController(private val service: TopicoService) {           //Injetan
     }
 
     @PostMapping
+    @Transactional
     fun cadastrar(@RequestBody @Valid form: NovoTopicoForm,
                   uriBuilder: UriComponentsBuilder
     ): ResponseEntity<TopicoView> {
