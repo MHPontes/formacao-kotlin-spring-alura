@@ -36,6 +36,7 @@ class TopicoController(private val service: TopicoService) {           //Injetan
     }
 
     @PutMapping
+    @Transactional
     fun atualizar(@RequestBody @Valid form: AtualizacaoTopicoForm): ResponseEntity<TopicoView> {
        val topicoView = service.atualizar(form)
         return ResponseEntity.ok(topicoView)
@@ -43,6 +44,7 @@ class TopicoController(private val service: TopicoService) {           //Injetan
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
     }

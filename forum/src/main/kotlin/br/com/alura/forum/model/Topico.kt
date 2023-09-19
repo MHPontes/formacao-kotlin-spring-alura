@@ -18,4 +18,6 @@ data class Topico(
     val status: StatusTopico = StatusTopico.NAO_RESPONDIDO,
     @OneToMany(mappedBy = "topico") // Um topico tem varias respostas
     val respostas: List<Resposta> = ArrayList()
-)
+){
+    constructor() : this(null, "", "", LocalDateTime.now(), Curso(), Usuario())
+}
