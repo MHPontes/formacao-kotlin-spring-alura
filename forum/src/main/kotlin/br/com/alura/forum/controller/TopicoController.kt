@@ -3,6 +3,7 @@ package br.com.alura.forum.controller
 import br.com.alura.forum.dto.AtualizacaoTopicoForm
 import br.com.alura.forum.dto.NovoTopicoForm
 import br.com.alura.forum.dto.TopicoView
+import br.com.alura.forum.model.Curso
 import br.com.alura.forum.service.TopicoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -16,8 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicoController(private val service: TopicoService) {           //Injetando classe TopicoService dentro do controller
 
     @GetMapping
-    fun listar(): List<TopicoView> {           //Funcao listar retornando uma lista de Topicos
-        return service.listar()
+    fun listar(@RequestParam(required = false) nomeCurso: String?): List<TopicoView> {           //Funcao listar retornando uma lista de Topicos, usando RequestParam opcional, para consultar usando filtro nomeCurso.
+        return service.listar(nomeCurso)
     }
 
     @GetMapping("/{id}")

@@ -72,8 +72,13 @@ class TopicoService(
 }
      */
 
-    fun listar(): List<TopicoView> {
-        return repository.findAll().stream().map { t ->
+    fun listar(nomeCurso: String?): List<TopicoView> {
+        val topicos = if (nomeCurso == null) {          //Se nomeCurso, não for passado no filtro, retorna a lista de todos os cursos
+            repository.findAll()
+        } else {
+            repository.findByCursoNome(nomeCurso)      //Se for passado um nomeCurso, como filtro.
+        }
+        return topicos.stream().map { t ->
             topicoViewMapper.map(t)
         }.collect(Collectors.toList())
     }
