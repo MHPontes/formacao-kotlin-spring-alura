@@ -6,6 +6,10 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.model.Curso
 import br.com.alura.forum.service.TopicoService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -17,8 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicoController(private val service: TopicoService) {           //Injetando classe TopicoService dentro do controller
 
     @GetMapping
-    fun listar(@RequestParam(required = false) nomeCurso: String?): List<TopicoView> {           //Funcao listar retornando uma lista de Topicos, usando RequestParam opcional, para consultar usando filtro nomeCurso.
-        return service.listar(nomeCurso)
+    fun listar(
+        @RequestParam(required = false) nomeCurso: String?,
+        @PageableDefault(size = 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable
+    ): Page<TopicoView> {           //Funcao listar retornando uma lista de Topicos, usando RequestParam opcional, para consultar usando filtro nomeCurso e paginacao
+        return service.listar(nomeCurso, paginacao)
     }
 
     @GetMapping("/{id}")

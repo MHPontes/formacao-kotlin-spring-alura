@@ -8,6 +8,8 @@ import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.model.Topico
 import br.com.alura.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestBody
 import java.util.stream.Collectors
@@ -22,7 +24,7 @@ class TopicoService(
 ) {
 
 
-    /*  Abaixo são formas as services sem o banco de dados, utlizando uma Arraylist e tendo os valores das entidades iniciados com init.
+    /*  Abaixo são formas das services sem o banco de dados, utlizando uma Arraylist e tendo os valores das entidades iniciados com init.
 
 
 //    fun listar(): List<TopicoView> {
@@ -72,15 +74,22 @@ class TopicoService(
 }
      */
 
-    fun listar(nomeCurso: String?): List<TopicoView> {
-        val topicos = if (nomeCurso == null) {          //Se nomeCurso, não for passado no filtro, retorna a lista de todos os cursos
-            repository.findAll()
-        } else {
-            repository.findByCursoNome(nomeCurso)      //Se for passado um nomeCurso, como filtro.
+    fun listar(
+        nomeCurso: String?,
+        paginacao: Pageable
+    ): Page<TopicoView> {
+        val topicos =
+            if (nomeCurso == null) {          //Se nomeCurso, não for passado no filtro, retorna a lista de todos os cursos
+                repository.findAll(paginacao)
+            } else {
+                repository.findByCursoNome(nomeCurso, paginacao)      //Se for passado um nomeCurso, como filtro.
+            }
+//        return topicos.stream().map { t ->
+//            topicoViewMapper.map(t)         //Retorno com List, sem uso do Page
+//        }.collect(Collectors.toList())
+        return topicos.map { t ->
+            topicoViewMapper.map(t) // Novo retorno devido ao Page, tem Lista + Paginacao
         }
-        return topicos.stream().map { t ->
-            topicoViewMapper.map(t)
-        }.collect(Collectors.toList())
     }
 
     fun buscarPorId(id: Long): TopicoView {
